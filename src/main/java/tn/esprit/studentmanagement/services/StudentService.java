@@ -16,5 +16,11 @@ public class StudentService implements IStudentService {
     public Student getStudentById(Long id) { return studentRepository.findById(id).orElse(null); }
     public Student saveStudent(Student student) { return studentRepository.save(student); }
     public void deleteStudent(Long id) { studentRepository.deleteById(id); }
+    
+    public List<Student> findStudentsByLastName(String lastName) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getLastName().equalsIgnoreCase(lastName))
+                .toList();
+    }
 
 }
