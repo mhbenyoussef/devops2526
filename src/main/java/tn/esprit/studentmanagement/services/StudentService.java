@@ -1,25 +1,37 @@
 package tn.esprit.studentmanagement.services;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import tn.esprit.studentmanagement.entities.Student;
-import tn.esprit.studentmanagement.repositories.StudentRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Service
 public class StudentService implements IStudentService {
-    @Autowired
-    private StudentRepository studentRepository;
-    public List<Student> getAllStudents() { return studentRepository.findAll(); }
-    public Student getStudentById(Long id) { return studentRepository.findById(id).orElse(null); }
-    public Student saveStudent(Student student) { return studentRepository.save(student); }
-    public void deleteStudent(Long id) { studentRepository.deleteById(id); }
+    private List<Student> students = new ArrayList<>();
+    
+    public List<Student> getAllStudents() { 
+        return new ArrayList<>(students); 
+    }
+    
+    public Student getStudentById(Long id) { 
+        return students.stream()
+                .filter(s -> s.getIdStudent().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+    
+    public Student saveStudent(Student student) { 
+        students.add(student);
+        return student; 
+    }
+    
+    public void deleteStudent(Long id) { 
+        students.removeIf(s -> s.getIdStudent().equals(id)); 
+    }
     
     public List<Student> findStudentsByLastName(String lastName) {
-        return studentRepository.findAll().stream()
-                .filter(student -> student.getLastName().equalsIgnoreCase(lastName))
+        return students.stream()
+                .filter(student -> student.getLastName() != null && 
+                        student.getLastName().equalsIgnoreCase(lastName))
                 .toList();
     }
 

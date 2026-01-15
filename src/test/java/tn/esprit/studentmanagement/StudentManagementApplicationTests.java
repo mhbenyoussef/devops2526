@@ -1,8 +1,7 @@
 package tn.esprit.studentmanagement;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.BeforeEach;
 import tn.esprit.studentmanagement.entities.Student;
 import tn.esprit.studentmanagement.services.StudentService;
 
@@ -11,20 +10,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 class StudentManagementApplicationTests {
 
-    @Autowired
     private StudentService studentService;
 
-    @Test
-    void contextLoads() {
+    @BeforeEach
+    void setUp() {
+        studentService = new StudentService();
     }
 
     @Test
     void testFindStudentsByLastName() {
         // Arrange - Create and save test students
         Student student1 = new Student();
+        student1.setIdStudent(1L);
         student1.setFirstName("John");
         student1.setLastName("Smith");
         student1.setEmail("john.smith@example.com");
@@ -34,6 +33,7 @@ class StudentManagementApplicationTests {
         studentService.saveStudent(student1);
 
         Student student2 = new Student();
+        student2.setIdStudent(2L);
         student2.setFirstName("Jane");
         student2.setLastName("Smith");
         student2.setEmail("jane.smith@example.com");
@@ -43,6 +43,7 @@ class StudentManagementApplicationTests {
         studentService.saveStudent(student2);
 
         Student student3 = new Student();
+        student3.setIdStudent(3L);
         student3.setFirstName("Bob");
         student3.setLastName("Johnson");
         student3.setEmail("bob.johnson@example.com");
